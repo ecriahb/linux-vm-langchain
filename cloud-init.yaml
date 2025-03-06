@@ -3,11 +3,17 @@ package_update: true
 package_upgrade: true
 
 runcmd:
+  - echo "Updating system packages..."
+  - apt update && apt upgrade -y
+
   - echo "Installing Python and Pip..."
   - apt install -y python3 python3-pip
+
+  - echo "Upgrading Pip to the latest version..."
   - pip install --upgrade pip
-  - echo "Installing LangChain..."
-  - pip install langchain
+
+  - echo "Installing or upgrading LangChain to the latest version..."
+  - pip install --upgrade langchain
 
   - echo "Installing Docker..."
   - curl -fsSL https://get.docker.com -o get-docker.sh
@@ -15,12 +21,10 @@ runcmd:
   - systemctl start docker
   - systemctl enable docker
 
-  - echo "Running Flowise in Docker..."
-  - docker run -d -p 3000:3000 --name flowise flowiseai/flowise
+  - echo "Pulling the latest Flowise Docker image..."
+  - docker pull flowiseai/flowise
+  
+  - echo "Running Flowise with the latest version..."
+  - docker run -d --name flowise-container -p 3000:3000 flowiseai/flowise
 
-  - echo "Installing NGINX..."
-  - apt install -y nginx
-  - systemctl start nginx
-  - systemctl enable nginx
-
-  - echo "Installation Completed Successfully!"
+  - echo "Cloud-Init script execution completed!"
