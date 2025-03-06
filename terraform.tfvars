@@ -1,0 +1,8 @@
+bastion_subnet       = "AzureBastionSubnet"
+bastion_name         = "bastion-host"
+bastion_ip           = "bastion-ip"
+resource_group_name  = "rg-terraform"
+location             = "Central India"
+virtual_network_name = "vnet-terraform"
+subnet_name          = "subnet-terraform"
+vm_name              = "vm-terraform"
