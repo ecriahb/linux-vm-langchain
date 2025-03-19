@@ -1,27 +1,33 @@
-#cloud-config
-package_update: true
-package_upgrade: true
+#!/bin/bash
 
-runcmd:
-  - echo "Configuring sudo without password..."
-  - echo "cloud-user ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/cloud-user
+# 🔐 Configure sudo without password
+echo "Configuring sudo without password..."
+sudo chattr -i /etc/sudoers
+echo "cloud-user ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+sudo chattr +i /etc/sudoers
 
-  - echo "Installing Dependencies..."
-  - sudo dnf install -y python3 python3-pip python3-virtualenv
+# 🐍 Installing Dependencies
+echo "Installing Dependencies..."
+sudo dnf install -y python3 python3-pip python3-virtualenv
 
-  - sudo dnf module reset -y nodejs
-  - sudo dnf module enable -y nodejs:20
-  - sudo dnf install -y nodejs
+# 🟢 Node.js Installation
+echo "Installing Node.js..."
+sudo dnf module reset -y nodejs
+sudo dnf module enable -y nodejs:20
+sudo dnf install -y nodejs
 
-  - echo "Creating Python Virtual Environment..."
-  - python3 -m venv /opt/flowise_env
-  - source /opt/flowise_env/bin/activate
+# 🧑‍💻 Creating Python Virtual Environment
+echo "Creating Python Virtual Environment..."
+python3 -m venv /opt/flowise_env
+source /opt/flowise_env/bin/activate
 
-  - echo "Installing Flowise and Llama-Parse..."
-  - sudo npm install -g flowise
-  - sudo npm install -g llama-parse
+# ⚙️ Installing Flowise and Llama-Parse
+echo "Installing Flowise and Llama-Parse..."
+sudo npm install -g flowise
+sudo npm install -g llama-parse
 
-  - echo "Starting Flowise in Background..."
-  - nohup sudo npx flowise start --host 0.0.0.0 --port 3000 > /root/flowise.log 2>&1 &
+# 🚀 Starting Flowise in Background
+echo "Starting Flowise in Background..."
+nohup sudo npx flowise start --host 0.0.0.0 --port 3000 > /root/flowise.log 2>&1 &
 
-  - echo "Installation Completed Successfully!"
+echo "✅ Installation Completed Successfully!"
