@@ -20,6 +20,7 @@ runcmd:
   - sudo pip install --upgrade pip
   - sudo pip install langchain
 
+
   - echo "Installing Flowise..."
   - sudo npm install -g flowise
 
